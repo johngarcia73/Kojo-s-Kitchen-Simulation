@@ -54,9 +54,7 @@ El tiempo de espera se calcula como inicio_del_servicio - llegada. Se registra p
 
 ### 2.4 Manejo de servidores
 
-Cada servidor tiene estado ocupado_hasta (tiempo de finalización de su tarea actual) y un flag activo (para eliminar el extra cuando corresponde).
-
-Al liberarse un servidor, se llama a \_atender_cola() que asigna el primer cliente de la cola a cualquier servidor libre.
+Se utiliza un contador de servidores libres (free_servers) y una lista (service_end_times) que almacena los tiempos de finalización de los servicios activos. Los servidores son indistinguibles, por lo que no se modelan individualmente. Al iniciar un servicio, se reduce el contador y se agrega el tiempo de fin a un heap. Al ocurrir una salida (evento departure), se liberan todos los servicios cuyo tiempo de fin sea menor o igual al actual, incrementando el contador. La adición o eliminación de un empleado extra modifica el total de servidores (total_servers) y el contador de libres correspondientemente.
 
 ### 2.5 Réplicas y análisis estadístico
 
