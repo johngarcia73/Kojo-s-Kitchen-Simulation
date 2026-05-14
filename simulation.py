@@ -21,12 +21,11 @@ SANDWICH_PROB = 0.5
 SANDWICH_TIME, MAX_SANDWICH_TIME = 3, 5
 SUSHI_TIME, MAX_SUSHI_TIME = 5, 8
 
-WAITING_THRESHOLD = 5.0   # minutos
+WAITING_THRESHOLD = 5.0
 
-# SEED for reproducibility
-SEED = 42
+SEED = 42  # for reproducibility
 
-REPLICAS_NUM = 100
+REPLICAS_NUM = 1000
 
 # Arivals generation (non-homogeneus Poisson) ----------
 def generate_arrival_times(intervals):
@@ -200,7 +199,7 @@ class Simulation:
             # No free server, enqueue
             self.queue.append(client)
 
-    def _manejar_departure(self, time, server_id):
+    def _manage_departure(self, time, server_id):
         """Process client exit"""
         self.clock = time
 
@@ -244,7 +243,7 @@ class Simulation:
                         s.active = False
                         break
 
-    def _manejar_stop(self, time):
+    def _manage_stop(self, time):
         """Nothing, just stops the loop"""
         self.clock = time
 
@@ -257,11 +256,11 @@ class Simulation:
             if type == 'arrival':
                 self._manage_arrival(time, data[0])
             elif type == 'departure':
-                self._manejar_departure(time, data[0])
+                self._manage_departure(time, data[0])
             elif type == 'staff_change':
                 self._manage_staff_changes(time, data[0])
             elif type == 'stop':
-                self._manejar_stop(time)
+                self._manage_stop(time)
                 break
 
     def get_waiting_percent(self):
@@ -274,7 +273,7 @@ class Simulation:
         return 100.0 * n_mas / len(self.waiting_times)
 
 # Multiple replicas main simulation function
-def simular_replicas(use_extra_rush, REPLICAS_NUM=REPLICAS_NUM, SEED_base=SEED):
+def simulate_replicas(use_extra_rush, REPLICAS_NUM=REPLICAS_NUM, SEED_base=SEED):
     """
     Performs multiple simulation tries and returns statistics about
     the > 5 minutes waiting percentage.
@@ -305,12 +304,10 @@ if __name__ == "__main__":
     print(f"Waiting threshold = {WAITING_THRESHOLD} minutes")
     print(f"Tries number = {REPLICAS_NUM}\n")
 
-    # Scenario 1: only 2 employess all day
-    prom2, std2 = simular_replicas(use_extra_rush=False)
+    prom2, std2 = simulate_replicas(use_extra_rush=False)
     print(f"Current Scenario (2 fixed employees):")
     print(f"Porcentage of clients waiting > {WAITING_THRESHOLD} min = {prom2:.2f}% ± {std2:.2f}%")
 
-    # Escenario 2: 2 empleados + 1 extra en horas pico
-    prom3, std3 = simular_replicas(use_extra_rush=True)
+    prom3, std3 = simulate_replicas(use_extra_rush=True)
     print(f"\nAlternative scenario(3 employees at rush hour):")
-    print(f"Porcentage of clients waiting > > {WAITING_THRESHOLD} min = {prom3:.2f}% ± {std3:.2f}%")
+    print(f"Porcentage of clients waiting > {WAITING_THRESHOLD} min = {prom3:.2f}% ± {std3:.2f}%")
