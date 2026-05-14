@@ -1,4 +1,4 @@
-## John García Muñoz C-312
+# John García Muñoz C-312
 
 ## Problema 1: La cocina de Kojo
 
@@ -6,7 +6,7 @@
 
 El problema planteado requiere evaluar el impacto de agregar un tercer empleado durante las horas pico en el porcentaje de clientes que esperan más de 5 minutos para ser atendidos. Para ello se desarrolló un modelo de simulación de eventos discretos que replica el comportamiento del sistema real bajo ciertas simplificaciones.
 
-### Las ideas clave fueron:
+### Las ideas clave fueron
 
 Modelar las llegadas de clientes como un proceso de Poisson no homogéneo, con tasas constantes por segmentos. Esto permite generar tiempos de llegada realistas.
 
