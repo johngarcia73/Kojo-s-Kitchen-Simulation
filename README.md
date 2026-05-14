@@ -1,4 +1,4 @@
-# Kojo's Kitchen Simulation
+# Kojo's Kitchen Simulation (academic purposes project)
 
 Discrete events simulation model for evaluating the impact of hiring an extra employeefor rush hour on clients percentage who wait more than five minutes.
 
